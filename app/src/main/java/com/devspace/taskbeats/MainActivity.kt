@@ -43,7 +43,11 @@ class MainActivity : AppCompatActivity() {
 
         categoryAdapter.setOnClickListener { selected ->
             if (selected.name == "+") {
-                Snackbar.make(rvCategory, "+ is selected", Snackbar.LENGTH_LONG).show()
+
+                val createCategoryBottonSheet = CreateCategoryBottonSheet()
+
+                createCategoryBottonSheet.show(supportFragmentManager, "createCategoryBottonSheet")
+
             } else {
                 val categoryTemp = categories.map { item ->
                     when {
