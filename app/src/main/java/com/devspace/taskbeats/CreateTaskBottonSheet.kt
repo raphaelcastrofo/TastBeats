@@ -32,7 +32,7 @@ class CreateTaskBottomSheet(
             onCreateClicked.invoke(name)
             dismiss()
         }
-        val a = 10
+
         val categoryStr : List<String> = categoryList.map { it.name }
 
         val spinner: Spinner = view.findViewById(R.id.sp_categories)
