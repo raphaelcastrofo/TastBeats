@@ -23,6 +23,7 @@ class CreateTaskBottomSheet(
     ): View? {
         val view = inflater.inflate(R.layout.creat_task_botto_sheet, container, false)
 
+
         val btnCreate = view.findViewById<Button>(R.id.btn_Task_create)
         val tieTaskName = view.findViewById<TextInputEditText>(R.id.tie_Task_name)
 
@@ -31,7 +32,7 @@ class CreateTaskBottomSheet(
             onCreateClicked.invoke(name)
             dismiss()
         }
-
+        val a = 10
         val categoryStr : List<String> = categoryList.map { it.name }
 
         val spinner: Spinner = view.findViewById(R.id.sp_categories)
