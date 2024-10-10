@@ -8,11 +8,14 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 
-class CreateTaskBottomSheet(
+class CreateOrUpdateTaskBottomSheet(
+
+    private val task: TaskUiData? = null,
     private val onCreateClicked: (TaskUiData) -> Unit,
     private val categoryList: List<CategoryUiData>
 
@@ -23,25 +26,35 @@ class CreateTaskBottomSheet(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.creat_task_botto_sheet, container, false)
+        val view = inflater.inflate(R.layout.create_or_update_task_bottom_sheet, container, false)
 
+        val tvTitle = view.findViewById<TextView>(R.id.tv_title)
         val btnCreate = view.findViewById<Button>(R.id.btn_Task_create)
         val tieTaskName = view.findViewById<TextInputEditText>(R.id.tie_Task_name)
 
-        var taskCategory : String? = null
+        if (task == null) {
+            tvTitle.setText(R.string.create_task_title)
+            btnCreate.setText(R.string.create)
+        } else {
+            tvTitle.setText(R.string.update_task_title)
+            btnCreate.setText(R.string.update)
+        }
+
+        var taskCategory: String? = null
 
         btnCreate.setOnClickListener {
             val name = tieTaskName.text.toString()
             if (taskCategory != null) {
                 onCreateClicked.invoke(
                     TaskUiData(
+                        id = 0,
                         name = name,
                         category = requireNotNull(taskCategory)
                     )
                 )
                 dismiss()
-            }else{
-              Snackbar.make(btnCreate, "Please select a category", Snackbar.LENGTH_LONG).show()
+            } else {
+                Snackbar.make(btnCreate, "Please select a category", Snackbar.LENGTH_LONG).show()
             }
         }
 
