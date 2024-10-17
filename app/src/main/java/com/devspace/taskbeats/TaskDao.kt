@@ -11,18 +11,25 @@ import androidx.room.Update
 @Dao
 interface TaskDao {
     @Query("Select * From TaskEntity")
-    fun getAll():List<TaskEntity>
+    fun getAll(): List<TaskEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll (taskEntities: List<TaskEntity>)
+    fun insertAll(taskEntities: List<TaskEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert (taskEntities: TaskEntity)
+    fun insert(taskEntities: TaskEntity)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update (taskEntity: TaskEntity)
+    fun update(taskEntity: TaskEntity)
 
     @Delete
     fun delete(taskEntity: TaskEntity)
+
+    @Query("Select * From TaskEntity where category is :categoryName")
+    fun getAllTasksByCategoryName(categoryName: String): List<TaskEntity>
+
+    @Delete
+    fun deleteAll(taskEntity: List<TaskEntity>)
+
 
 }

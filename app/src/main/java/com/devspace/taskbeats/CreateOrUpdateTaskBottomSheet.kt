@@ -21,7 +21,7 @@ class CreateOrUpdateTaskBottomSheet(
     private val onCreateClicked: (TaskUiData) -> Unit,
     private val onUpdateClicked: (TaskUiData) -> Unit,
     private val onDeleteClicked: (TaskUiData) -> Unit,
-    private val categoryList: List<CategoryUiData>
+    private val categoryList: List<CategoryEntity>
 
 ) : BottomSheetDialogFragment() {
 
@@ -38,9 +38,16 @@ class CreateOrUpdateTaskBottomSheet(
         val btnDelete = view.findViewById<Button>(R.id.btn_task_delete)
         val tieTaskName = view.findViewById<TextInputEditText>(R.id.tie_Task_name)
         val spinner: Spinner = view.findViewById(R.id.sp_categories)
-        val categoryStr: List<String> = categoryList.map { it.name }
-
         var taskCategory: String? = null
+
+        val categoryListTemp = mutableListOf("Select")
+        categoryListTemp.addAll(
+            categoryList.map { it.name }
+        )
+        val categoryStr: List<String> = categoryListTemp
+
+
+
 
         ArrayAdapter(
             requireActivity().baseContext,
@@ -60,6 +67,7 @@ class CreateOrUpdateTaskBottomSheet(
             ) {
                 taskCategory = categoryStr.get(position)
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
@@ -75,7 +83,7 @@ class CreateOrUpdateTaskBottomSheet(
             tieTaskName.setText(task.name)
 
 
-            val index = categoryList.indexOfFirst {it.name == task.category }
+            val index = categoryList.indexOfFirst { it.name == task.category }
             spinner.setSelection(index)
 
         }
@@ -86,13 +94,13 @@ class CreateOrUpdateTaskBottomSheet(
                 dismiss()
 
             } else {
-                Log.d("CreateOrUpdateTaskBottomSheet","Task not found")
+                Log.d("CreateOrUpdateTaskBottomSheet", "Task not found")
             }
         }
 
         btnCreateOrUpdate.setOnClickListener {
             val name = tieTaskName.text.toString().trim()
-            if (taskCategory != null && name.isNotEmpty()) {
+            if (taskCategory != "Select" && name.isNotEmpty()) {
                 if (task == null) {
                     onCreateClicked.invoke(
                         TaskUiData(
@@ -114,7 +122,8 @@ class CreateOrUpdateTaskBottomSheet(
 
                 dismiss()
             } else {
-                Snackbar.make(btnCreateOrUpdate, "Please select a category", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(btnCreateOrUpdate, "Please select a category", Snackbar.LENGTH_LONG)
+                    .show()
             }
         }
 
