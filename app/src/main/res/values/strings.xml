@@ -8,4 +8,6 @@
     <string name="delete">Delete</string>
     <string name="category_delete_title">Important!</string>
     <string name="category_delete_description">By delete a category you will delete all tasks with this category, do you want to proceed?</string>
+    <string name="empty_category_title">No category found!</string>
+    <string name="empty_category_description">please create a new one!</string>
 </resources>
